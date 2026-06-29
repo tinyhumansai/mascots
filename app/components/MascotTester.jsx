@@ -7,8 +7,8 @@ import {
   useViewModel,
   useViewModelInstance,
   useViewModelInstanceEnum
-} from "@rive-app/react-canvas";
-import { useEffect, useMemo, useState } from "react";
+} from "@rive-app/react-webgl2";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const riveLayout = new Layout({ fit: Fit.Contain });
 const RIVE_STATE_MACHINE = "MascotSM";
@@ -110,6 +110,8 @@ export default function MascotTester() {
   const [cycling, setCycling] = useState(false);
   const [channelValues, setChannelValues] = useState({});
   const [channelCycling, setChannelCycling] = useState({});
+  const [lipSyncing, setLipSyncing] = useState(false);
+  const lipSyncRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -153,6 +155,18 @@ export default function MascotTester() {
     setPose(engine?.states?.idle ?? "idle");
     setViseme(engine?.visemeCodes?.[0] ?? "sil");
     setCycling(false);
+    const running = lipSyncRef.current;
+    if (running) {
+      running.cancelled = true;
+      running.timeouts.forEach(timer => window.clearTimeout(timer));
+      try {
+        running.audioCtx.close();
+      } catch {
+        /* already closed */
+      }
+      lipSyncRef.current = null;
+    }
+    setLipSyncing(false);
     const initialValues = {};
     for (const channel of engine?.channels ?? []) {
       initialValues[channel.key] = channel.default ?? channel.values[0];
@@ -215,6 +229,84 @@ export default function MascotTester() {
     };
   }, [cycling, stateEngine]);
 
+  // Dummy lip-sync: play a syllabic "babble" tone and drive the viseme codes in
+  // time with it so the mouth shapes animate. Not phonetically accurate — it's a
+  // visual check that the visemeCodes channel drives the mouth.
+  const stopLipSync = () => {
+    const session = lipSyncRef.current;
+    if (session) {
+      session.cancelled = true;
+      session.timeouts.forEach(timer => window.clearTimeout(timer));
+      try {
+        session.audioCtx.close();
+      } catch {
+        /* already closed */
+      }
+      lipSyncRef.current = null;
+    }
+    setLipSyncing(false);
+    setViseme("sil");
+  };
+
+  const playLipSync = () => {
+    stopLipSync();
+    const codes = (stateEngine?.visemeCodes ?? []).filter(code => code !== "sil");
+    if (codes.length === 0) return;
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const audioCtx = new AudioCtx();
+    const session = { audioCtx, timeouts: [], cancelled: false };
+    lipSyncRef.current = session;
+    setLipSyncing(true);
+
+    let offset = 0;
+    const syllables = 26;
+    for (let i = 0; i < syllables; i += 1) {
+      const viseme = codes[Math.floor(Math.random() * codes.length)];
+      const openMs = 90 + Math.random() * 90;
+      const gapMs = 40 + Math.random() * 70;
+      const at = offset;
+      session.timeouts.push(
+        window.setTimeout(() => {
+          if (session.cancelled) return;
+          setViseme(viseme);
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "sawtooth";
+          osc.frequency.value = 95 + Math.random() * 70;
+          osc.connect(gain).connect(audioCtx.destination);
+          const now = audioCtx.currentTime;
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.exponentialRampToValueAtTime(0.09, now + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + openMs / 1000);
+          osc.start(now);
+          osc.stop(now + openMs / 1000 + 0.03);
+        }, at)
+      );
+      session.timeouts.push(
+        window.setTimeout(() => {
+          if (!session.cancelled) setViseme("sil");
+        }, at + openMs)
+      );
+      offset += openMs + gapMs;
+    }
+    session.timeouts.push(window.setTimeout(stopLipSync, offset + 250));
+  };
+
+  useEffect(() => {
+    return () => {
+      const session = lipSyncRef.current;
+      if (!session) return;
+      session.cancelled = true;
+      session.timeouts.forEach(timer => window.clearTimeout(timer));
+      try {
+        session.audioCtx.close();
+      } catch {
+        /* already closed */
+      }
+    };
+  }, []);
+
   const runtime = runtimeFile(selectedMascot);
   const source = sourceFile(selectedMascot);
 
@@ -264,6 +356,7 @@ export default function MascotTester() {
               </div>
 
               <RivePreview
+                key={selectedMascot.id}
                 mascot={selectedMascot}
                 pose={pose}
                 viseme={viseme}
@@ -317,6 +410,9 @@ export default function MascotTester() {
             </button>
             <button type="button" onClick={() => setViseme("sil")}>
               Rest mouth
+            </button>
+            <button type="button" onClick={() => (lipSyncing ? stopLipSync() : playLipSync())}>
+              {lipSyncing ? "Stop talking" : "Play lip-sync"}
             </button>
           </div>
 

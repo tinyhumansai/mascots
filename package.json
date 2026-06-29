@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@rive-app/react-canvas": "^4.29.3",
+    "@rive-app/react-webgl2": "^4.29.3",
     "next": "^16.2.9",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"

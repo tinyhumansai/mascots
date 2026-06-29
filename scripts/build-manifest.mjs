@@ -163,11 +163,14 @@ async function main() {
   const manifest = {
     schemaVersion: 1,
     generatedAt: checkOnly && currentManifest?.generatedAt ? currentManifest.generatedAt : new Date().toISOString(),
-    source: {
-      repository: REPOSITORY,
-      branch: BRANCH,
-      commit: COMMIT
-    },
+    source:
+      checkOnly && currentManifest?.source
+        ? currentManifest.source
+        : {
+            repository: REPOSITORY,
+            branch: BRANCH,
+            commit: COMMIT
+          },
     mascots
   };
 

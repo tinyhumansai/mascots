@@ -45,7 +45,6 @@
           "look_left",
           "look_right",
           "blink",
-          "closed",
           "squinting",
           "confused",
           "thinking"

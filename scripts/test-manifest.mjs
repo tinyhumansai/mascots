@@ -15,6 +15,14 @@ for (const mascot of manifest.mascots) {
   if (ids.has(mascot.id)) fail(`duplicate mascot id '${mascot.id}'`);
   ids.add(mascot.id);
   if (!["ready", "draft"].includes(mascot.status)) fail(`${mascot.id} has invalid status`);
+  if (!mascot.stateEngine?.states?.idle) fail(`${mascot.id} is missing stateEngine.states.idle`);
+  if (!mascot.stateEngine?.states?.thinking) fail(`${mascot.id} is missing stateEngine.states.thinking`);
+  if (!Array.isArray(mascot.stateEngine?.visemeCodes) || mascot.stateEngine.visemeCodes.length === 0) {
+    fail(`${mascot.id} is missing stateEngine.visemeCodes`);
+  }
+  if (!Array.isArray(mascot.stateEngine?.idlePoseCycle) || mascot.stateEngine.idlePoseCycle.length === 0) {
+    fail(`${mascot.id} is missing stateEngine.idlePoseCycle`);
+  }
   if (!mascot.files?.some((file) => file.role === "runtime" && file.path.endsWith(".riv"))) {
     fail(`${mascot.id} is missing runtime .riv file`);
   }

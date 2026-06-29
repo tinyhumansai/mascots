@@ -34,7 +34,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name", "description", "status", "tags", "contract", "files"],
+        "required": ["id", "name", "description", "status", "tags", "stateEngine", "files"],
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -59,39 +59,42 @@
             },
             "uniqueItems": true
           },
-          "contract": {
+          "stateEngine": {
             "type": "object",
-            "required": ["artboard", "stateMachine", "viewModel", "inputs"],
+            "required": ["visemeCodes", "states", "idlePoseCycle"],
             "additionalProperties": false,
             "properties": {
-              "artboard": {
-                "type": "string"
+              "visemeCodes": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
               },
-              "stateMachine": {
-                "type": "string"
-              },
-              "viewModel": {
-                "type": "string"
-              },
-              "inputs": {
+              "states": {
                 "type": "object",
-                "required": ["pose", "mouthVisemeCode", "primaryColor", "secondaryColor"],
-                "additionalProperties": {
-                  "type": "object"
-                },
+                "required": ["idle", "thinking"],
+                "additionalProperties": false,
                 "properties": {
-                  "pose": {
-                    "$ref": "#/$defs/contractInput"
+                  "idle": {
+                    "type": "string",
+                    "minLength": 1
                   },
-                  "mouthVisemeCode": {
-                    "$ref": "#/$defs/contractInput"
-                  },
-                  "primaryColor": {
-                    "$ref": "#/$defs/contractInput"
-                  },
-                  "secondaryColor": {
-                    "$ref": "#/$defs/contractInput"
+                  "thinking": {
+                    "type": "string",
+                    "minLength": 1
                   }
+                }
+              },
+              "idlePoseCycle": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
                 }
               }
             }
@@ -103,6 +106,42 @@
               "type": "object",
               "required": ["role", "path", "url", "sha256", "bytes"],
               "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "runtime"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*[a-z][A-Za-z0-9]*\\.riv$"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "source"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*[a-z][A-Za-z0-9]*\\.rev$"
+                      }
+                    }
+                  }
+                }
+              ],
               "properties": {
                 "role": {
                   "type": "string",
@@ -126,29 +165,6 @@
               }
             }
           }
-        }
-      }
-    }
-  },
-  "$defs": {
-    "contractInput": {
-      "type": "object",
-      "required": ["type"],
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": ["enum", "color"]
-        },
-        "enumName": {
-          "type": "string"
-        },
-        "values": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "uniqueItems": true
         }
       }
     }

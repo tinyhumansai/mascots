@@ -19,6 +19,7 @@ const COMMIT =
   process.env.GITHUB_SHA || process.env.MASCOTS_COMMIT || "local";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const camelCaseAssetPattern = /^[a-z][A-Za-z0-9]*\.(?:riv|rev)$/;
 const allowedExtensions = new Set([".riv", ".rev", ".png", ".jpg", ".jpeg", ".webp", ".gif"]);
 const roleExtensions = {
   runtime: new Set([".riv"]),
@@ -84,6 +85,7 @@ async function loadMascot(folderName) {
   if (!Array.isArray(metadata.tags)) {
     fail(`Mascot '${folderName}' tags must be an array.`);
   }
+  validateStateEngine(folderName, metadata.stateEngine);
   if (!Array.isArray(metadata.files) || metadata.files.length === 0) {
     fail(`Mascot '${folderName}' must list at least one file.`);
   }
@@ -105,6 +107,9 @@ async function loadMascot(folderName) {
     const extension = path.extname(filePath).toLowerCase();
     if (!allowedExtensions.has(extension) || !roleExtensions[role].has(extension)) {
       fail(`Mascot '${folderName}' file '${filePath}' extension does not match role '${role}'.`);
+    }
+    if ((extension === ".riv" || extension === ".rev") && !camelCaseAssetPattern.test(path.basename(filePath))) {
+      fail(`Mascot '${folderName}' Rive asset '${filePath}' must use lower camelCase.`);
     }
 
     const absolutePath = path.join(folderPath, filePath);
@@ -140,9 +145,27 @@ async function loadMascot(folderName) {
     description: metadata.description || "",
     status: metadata.status,
     tags: [...new Set(metadata.tags)].sort((a, b) => a.localeCompare(b)),
-    contract: metadata.contract,
+    stateEngine: metadata.stateEngine,
     files: files.sort((a, b) => `${a.role}:${a.path}`.localeCompare(`${b.role}:${b.path}`))
   };
+}
+
+function validateStateEngine(folderName, stateEngine) {
+  if (!stateEngine || typeof stateEngine !== "object") {
+    fail(`Mascot '${folderName}' must define stateEngine.`);
+  }
+  if (!Array.isArray(stateEngine.visemeCodes) || stateEngine.visemeCodes.length === 0) {
+    fail(`Mascot '${folderName}' stateEngine.visemeCodes must be a non-empty array.`);
+  }
+  if (!stateEngine.states || typeof stateEngine.states !== "object") {
+    fail(`Mascot '${folderName}' stateEngine.states must be an object.`);
+  }
+  if (!stateEngine.states.idle || !stateEngine.states.thinking) {
+    fail(`Mascot '${folderName}' stateEngine.states must define idle and thinking.`);
+  }
+  if (!Array.isArray(stateEngine.idlePoseCycle) || stateEngine.idlePoseCycle.length === 0) {
+    fail(`Mascot '${folderName}' stateEngine.idlePoseCycle must be a non-empty array.`);
+  }
 }
 
 async function main() {

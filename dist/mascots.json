@@ -1,76 +1,58 @@
 {
-  "generatedAt": "2026-06-29T17:21:33.299Z",
+  "generatedAt": "2026-06-29T19:52:22.661Z",
   "mascots": [
     {
-      "contract": {
-        "artboard": "Artboard",
-        "inputs": {
-          "mouthVisemeCode": {
-            "enumName": "visme_codes",
-            "type": "enum",
-            "values": [
-              "sil",
-              "PP",
-              "FF",
-              "TH",
-              "DD",
-              "kk",
-              "CH",
-              "SS",
-              "nn",
-              "RR",
-              "aa",
-              "E",
-              "ih",
-              "oh",
-              "ou"
-            ]
-          },
-          "pose": {
-            "enumName": "poses",
-            "type": "enum",
-            "values": [
-              "idle",
-              "thinking",
-              "celebration",
-              "bookreading",
-              "coffeedrink",
-              "writing",
-              "bobbateadrink",
-              "recording",
-              "hand_wave",
-              "dancing"
-            ]
-          },
-          "primaryColor": {
-            "type": "color"
-          },
-          "secondaryColor": {
-            "type": "color"
-          }
-        },
-        "stateMachine": "MascotSM",
-        "viewModel": "ViewModel1"
-      },
       "description": "Default OpenHuman mascot built in Rive Studio.",
       "files": [
         {
           "bytes": 189369,
-          "path": "mascots/tiny-mascot/tiny_mascot.riv",
+          "path": "mascots/tiny-mascot/tinyMascot.riv",
           "role": "runtime",
           "sha256": "cc9b91233ed5f95bcf2bf0cf0852d39d4ff9295b6fc43f8e0a40b9e16bf724f0",
-          "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/tiny-mascot/tiny_mascot.riv"
+          "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/tiny-mascot/tinyMascot.riv"
         },
         {
           "bytes": 622829,
-          "path": "mascots/tiny-mascot/tiny_mascot.rev",
+          "path": "mascots/tiny-mascot/tinyMascot.rev",
           "role": "source",
           "sha256": "31a7d001f0bb5618e13b0cf8cd1f30f87ce06bb1df7dfff96ba642c66d96164c",
-          "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/tiny-mascot/tiny_mascot.rev"
+          "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/tiny-mascot/tinyMascot.rev"
         }
       ],
       "id": "tiny-mascot",
       "name": "Tiny Mascot",
+      "stateEngine": {
+        "idlePoseCycle": [
+          "idle",
+          "bookreading",
+          "coffeedrink",
+          "writing",
+          "bobbateadrink",
+          "hand_wave",
+          "dancing"
+        ],
+        "states": {
+          "idle": "idle",
+          "thinking": "thinking"
+        },
+        "visemeCodes": [
+          "sil",
+          "PP",
+          "FF",
+          "TH",
+          "DD",
+          "kk",
+          "CH",
+          "SS",
+          "nn",
+          "RR",
+          "aa",
+          "E",
+          "ih",
+          "oh",
+          "ou"
+        ]
+      },
       "status": "ready",
       "tags": [
         "default",
@@ -78,75 +60,56 @@
       ]
     },
     {
-      "contract": {
-        "artboard": "Artboard",
-        "inputs": {
-          "mouthVisemeCode": {
-            "enumName": "visme_codes",
-            "type": "enum",
-            "values": [
-              "sil",
-              "PP",
-              "FF",
-              "TH",
-              "DD",
-              "kk",
-              "CH",
-              "SS",
-              "nn",
-              "RR",
-              "aa",
-              "E",
-              "ih",
-              "oh",
-              "ou"
-            ]
-          },
-          "pose": {
-            "enumName": "poses",
-            "type": "enum",
-            "values": [
-              "idle",
-              "thinking",
-              "celebration",
-              "bookreading",
-              "coffeedrink",
-              "writing",
-              "bobbateadrink",
-              "recording",
-              "hand_wave",
-              "dancing"
-            ]
-          },
-          "primaryColor": {
-            "type": "color"
-          },
-          "secondaryColor": {
-            "type": "color"
-          }
-        },
-        "stateMachine": "MascotSM",
-        "viewModel": "ViewModel1"
-      },
       "description": "Uploaded Toshi mascot asset. Marked draft until the Rive state machine matches the OpenHuman runtime contract.",
       "files": [
         {
-          "bytes": 2259477,
+          "bytes": 2259494,
           "path": "mascots/toshi/toshi.riv",
           "role": "runtime",
-          "sha256": "4a71d89e42abe6f45450baf0ab7bf37f63eacb684f1f56854961dee1dafc82cf",
+          "sha256": "e18377ecc899f1da1d1711ddf868d545f6c0009194cf5b8ff4aea8beccf9c639",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/toshi/toshi.riv"
         },
         {
-          "bytes": 5444387,
+          "bytes": 5105414,
           "path": "mascots/toshi/toshi.rev",
           "role": "source",
-          "sha256": "4a28e888d35ac7c05dc31c9baec4fac4d501e32c3ef2ccbb8779fd828bb3717b",
+          "sha256": "9a8ca1018352cf09faaa65bdad935da88cc940a3dba579cd57608f88b9fb9101",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/toshi/toshi.rev"
         }
       ],
       "id": "toshi",
       "name": "Toshi",
+      "stateEngine": {
+        "idlePoseCycle": [
+          "idle",
+          "look_around",
+          "pointing",
+          "hand_wave",
+          "dancing",
+          "celebration"
+        ],
+        "states": {
+          "idle": "idle",
+          "thinking": "look_around"
+        },
+        "visemeCodes": [
+          "sil",
+          "PP",
+          "FF",
+          "TH",
+          "DD",
+          "kk",
+          "CH",
+          "SS",
+          "nn",
+          "RR",
+          "aa",
+          "E",
+          "ih",
+          "oh",
+          "ou"
+        ]
+      },
       "status": "draft",
       "tags": [
         "draft",
@@ -157,7 +120,7 @@
   "schemaVersion": 1,
   "source": {
     "branch": "main",
-    "commit": "32c6567228a5ee5bf8ea3e679365de84e56d4942",
+    "commit": "local",
     "repository": "tinyhumansai/mascots"
   }
 }

@@ -6,12 +6,17 @@
   "scripts": {
     "build": "node scripts/build-manifest.mjs",
     "check": "node scripts/build-manifest.mjs --check",
-    "test": "npm run test:pairs && npm run test:schema && npm run test:manifest && npm run test:contract",
-    "test:contract": "node scripts/test-rive-contract.mjs",
-    "test:contract:all": "node scripts/test-rive-contract.mjs --all",
+    "dev": "next dev",
+    "preview": "next dev",
+    "test": "npm run test:pairs && npm run test:schema && npm run test:manifest && npm run test:state-engine",
+    "test:contract": "npm run test:state-engine",
+    "test:contract:all": "npm run test:state-engine:all",
     "test:manifest": "node scripts/test-manifest.mjs",
     "test:pairs": "node scripts/test-asset-pairs.mjs",
-    "test:schema": "node scripts/test-schema.mjs"
+    "test:preview": "next build",
+    "test:schema": "node scripts/test-schema.mjs",
+    "test:state-engine": "node scripts/test-state-engine.mjs",
+    "test:state-engine:all": "node scripts/test-state-engine.mjs --all"
   },
   "engines": {
     "node": ">=20"
@@ -19,5 +24,11 @@
   "devDependencies": {
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1"
+  },
+  "dependencies": {
+    "@rive-app/react-canvas": "^4.29.3",
+    "next": "^16.2.9",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   }
 }

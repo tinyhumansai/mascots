@@ -7,23 +7,10 @@ export const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)
 export const mascotsDir = path.join(repoRoot, "mascots");
 export const distManifestPath = path.join(repoRoot, "dist", "mascots.json");
 
-export const requiredContract = {
-  stateMachine: "MascotSM",
-  viewModel: "ViewModel1",
-  inputs: ["pose", "mouthVisemeCode", "primaryColor", "secondaryColor"],
-  enums: ["poses", "visme_codes"],
-  poses: [
-    "idle",
-    "thinking",
-    "celebration",
-    "bookreading",
-    "coffeedrink",
-    "writing",
-    "bobbateadrink",
-    "recording",
-    "hand_wave",
-    "dancing"
-  ],
+export const requiredStateEngine = {
+  visemeInput: "mouthVisemeCode",
+  visemeEnum: "visemeCodes",
+  poseEnum: "poses",
   visemes: ["sil", "PP", "FF", "TH", "DD", "kk", "CH", "SS", "nn", "RR", "aa", "E", "ih", "oh", "ou"]
 };
 
@@ -56,4 +43,3 @@ export function metadataFileByRole(mascot, role) {
   }
   return matches[0];
 }
-

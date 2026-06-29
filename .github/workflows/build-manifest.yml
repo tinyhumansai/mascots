@@ -6,16 +6,20 @@ on:
       - main
     paths:
       - "mascots/**"
+      - "app/**"
       - "schemas/**"
       - "scripts/**"
+      - "next.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/build-manifest.yml"
   pull_request:
     paths:
       - "mascots/**"
+      - "app/**"
       - "schemas/**"
       - "scripts/**"
+      - "next.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/build-manifest.yml"
@@ -53,6 +57,9 @@ jobs:
 
       - name: Test mascot assets
         run: npm test
+
+      - name: Compile preview tester
+        run: npm run test:preview
 
       - name: Commit generated manifest
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

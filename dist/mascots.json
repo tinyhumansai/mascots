@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-29T21:51:33.111Z",
+  "generatedAt": "2026-06-29T23:24:23.513Z",
   "mascots": [
     {
       "description": "Default OpenHuman mascot built in Rive Studio.",
@@ -142,7 +142,7 @@
   "schemaVersion": 1,
   "source": {
     "branch": "main",
-    "commit": "6601468faaf75fa8f27d1fe415b344b86ff4545c",
+    "commit": "efc4b03a67be204125971242d3e355be6e7276f1",
     "repository": "tinyhumansai/mascots"
   }
 }

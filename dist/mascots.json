@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-29T17:19:46.434Z",
+  "generatedAt": "2026-06-29T17:21:33.299Z",
   "mascots": [
     {
       "contract": {
@@ -157,7 +157,7 @@
   "schemaVersion": 1,
   "source": {
     "branch": "main",
-    "commit": "516df5dbce1c5ca5a81a12ecf1b8a4f6468de43a",
+    "commit": "32c6567228a5ee5bf8ea3e679365de84e56d4942",
     "repository": "tinyhumansai/mascots"
   }
 }

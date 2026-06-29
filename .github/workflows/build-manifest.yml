@@ -1,0 +1,62 @@
+name: Build mascot manifest
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "mascots/**"
+      - "schemas/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/build-manifest.yml"
+  pull_request:
+    paths:
+      - "mascots/**"
+      - "schemas/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/build-manifest.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build manifest
+        run: npm run build
+
+      - name: Validate manifest is stable
+        run: npm run check
+
+      - name: Validate manifest schema
+        run: npm run test:schema
+
+      - name: Test mascot assets
+        run: npm test
+
+      - name: Commit generated manifest
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update mascot manifest"
+          file_pattern: dist/mascots.json

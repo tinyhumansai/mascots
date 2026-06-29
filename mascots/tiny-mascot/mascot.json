@@ -1,0 +1,67 @@
+{
+  "id": "tiny-mascot",
+  "name": "Tiny Mascot",
+  "description": "Default OpenHuman mascot built in Rive Studio.",
+  "status": "ready",
+  "tags": ["default", "openhuman"],
+  "contract": {
+    "artboard": "Artboard",
+    "stateMachine": "MascotSM",
+    "viewModel": "ViewModel1",
+    "inputs": {
+      "pose": {
+        "type": "enum",
+        "enumName": "poses",
+        "values": [
+          "idle",
+          "thinking",
+          "celebration",
+          "bookreading",
+          "coffeedrink",
+          "writing",
+          "bobbateadrink",
+          "recording",
+          "hand_wave",
+          "dancing"
+        ]
+      },
+      "mouthVisemeCode": {
+        "type": "enum",
+        "enumName": "visme_codes",
+        "values": [
+          "sil",
+          "PP",
+          "FF",
+          "TH",
+          "DD",
+          "kk",
+          "CH",
+          "SS",
+          "nn",
+          "RR",
+          "aa",
+          "E",
+          "ih",
+          "oh",
+          "ou"
+        ]
+      },
+      "primaryColor": {
+        "type": "color"
+      },
+      "secondaryColor": {
+        "type": "color"
+      }
+    }
+  },
+  "files": [
+    {
+      "role": "runtime",
+      "path": "tiny_mascot.riv"
+    },
+    {
+      "role": "source",
+      "path": "tiny_mascot.rev"
+    }
+  ]
+}

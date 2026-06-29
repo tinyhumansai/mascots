@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/schemas/mascots.schema.json",
+  "title": "OpenHuman Mascots Manifest",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "source", "mascots"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "required": ["repository", "branch", "commit"],
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string"
+        }
+      }
+    },
+    "mascots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description", "status", "tags", "contract", "files"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["ready", "draft"]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "contract": {
+            "type": "object",
+            "required": ["artboard", "stateMachine", "viewModel", "inputs"],
+            "additionalProperties": false,
+            "properties": {
+              "artboard": {
+                "type": "string"
+              },
+              "stateMachine": {
+                "type": "string"
+              },
+              "viewModel": {
+                "type": "string"
+              },
+              "inputs": {
+                "type": "object",
+                "required": ["pose", "mouthVisemeCode", "primaryColor", "secondaryColor"],
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "properties": {
+                  "pose": {
+                    "$ref": "#/$defs/contractInput"
+                  },
+                  "mouthVisemeCode": {
+                    "$ref": "#/$defs/contractInput"
+                  },
+                  "primaryColor": {
+                    "$ref": "#/$defs/contractInput"
+                  },
+                  "secondaryColor": {
+                    "$ref": "#/$defs/contractInput"
+                  }
+                }
+              }
+            }
+          },
+          "files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["role", "path", "url", "sha256", "bytes"],
+              "additionalProperties": false,
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": ["runtime", "source", "thumbnail", "preview"]
+                },
+                "path": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "bytes": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "contractInput": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["enum", "color"]
+        },
+        "enumName": {
+          "type": "string"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

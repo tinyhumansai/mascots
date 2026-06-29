@@ -1,0 +1,67 @@
+{
+  "id": "toshi",
+  "name": "Toshi",
+  "description": "Uploaded Toshi mascot asset. Marked draft until the Rive state machine matches the OpenHuman runtime contract.",
+  "status": "draft",
+  "tags": ["draft", "openhuman"],
+  "contract": {
+    "artboard": "Artboard",
+    "stateMachine": "MascotSM",
+    "viewModel": "ViewModel1",
+    "inputs": {
+      "pose": {
+        "type": "enum",
+        "enumName": "poses",
+        "values": [
+          "idle",
+          "thinking",
+          "celebration",
+          "bookreading",
+          "coffeedrink",
+          "writing",
+          "bobbateadrink",
+          "recording",
+          "hand_wave",
+          "dancing"
+        ]
+      },
+      "mouthVisemeCode": {
+        "type": "enum",
+        "enumName": "visme_codes",
+        "values": [
+          "sil",
+          "PP",
+          "FF",
+          "TH",
+          "DD",
+          "kk",
+          "CH",
+          "SS",
+          "nn",
+          "RR",
+          "aa",
+          "E",
+          "ih",
+          "oh",
+          "ou"
+        ]
+      },
+      "primaryColor": {
+        "type": "color"
+      },
+      "secondaryColor": {
+        "type": "color"
+      }
+    }
+  },
+  "files": [
+    {
+      "role": "runtime",
+      "path": "toshi.riv"
+    },
+    {
+      "role": "source",
+      "path": "toshi.rev"
+    }
+  ]
+}

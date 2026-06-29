@@ -1,0 +1,23 @@
+{
+  "name": "@tinyhumansai/mascots",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-manifest.mjs",
+    "check": "node scripts/build-manifest.mjs --check",
+    "test": "npm run test:pairs && npm run test:schema && npm run test:manifest && npm run test:contract",
+    "test:contract": "node scripts/test-rive-contract.mjs",
+    "test:contract:all": "node scripts/test-rive-contract.mjs --all",
+    "test:manifest": "node scripts/test-manifest.mjs",
+    "test:pairs": "node scripts/test-asset-pairs.mjs",
+    "test:schema": "node scripts/test-schema.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  }
+}

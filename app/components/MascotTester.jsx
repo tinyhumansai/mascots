@@ -47,7 +47,17 @@ function sourceFile(mascot) {
   return mascot?.files?.find(file => file.role === "source");
 }
 
-function RivePreview({ mascot, pose, viseme }) {
+// Drives one optional enum channel (e.g. "eyes") onto the view model. Each channel
+// gets its own component so the hook count stays stable per the rules of hooks.
+function ChannelDriver({ channelKey, value, viewModelInstance }) {
+  const { setValue } = useViewModelInstanceEnum(channelKey, viewModelInstance);
+  useEffect(() => {
+    if (value != null) setValue(value);
+  }, [value, setValue]);
+  return null;
+}
+
+function RivePreview({ mascot, pose, viseme, channelValues }) {
   const runtime = runtimeFile(mascot);
   const src = runtime ? localAssetUrl(runtime.path) : null;
   const { rive, RiveComponent } = useRive(
@@ -74,9 +84,19 @@ function RivePreview({ mascot, pose, viseme }) {
     setViseme(viseme);
   }, [viseme, setViseme]);
 
+  const channels = mascot?.stateEngine?.channels ?? [];
+
   return (
     <div className="previewSurface">
       {src ? <RiveComponent /> : <div className="emptyState">No runtime file</div>}
+      {channels.map(channel => (
+        <ChannelDriver
+          key={channel.key}
+          channelKey={channel.key}
+          value={channelValues?.[channel.key]}
+          viewModelInstance={viewModelInstance}
+        />
+      ))}
     </div>
   );
 }
@@ -88,6 +108,8 @@ export default function MascotTester() {
   const [pose, setPose] = useState("idle");
   const [viseme, setViseme] = useState("sil");
   const [cycling, setCycling] = useState(false);
+  const [channelValues, setChannelValues] = useState({});
+  const [channelCycling, setChannelCycling] = useState({});
 
   useEffect(() => {
     let cancelled = false;
@@ -127,10 +149,42 @@ export default function MascotTester() {
 
   useEffect(() => {
     if (!selectedMascot) return;
-    setPose(selectedMascot.stateEngine?.states?.idle ?? "idle");
-    setViseme(selectedMascot.stateEngine?.visemeCodes?.[0] ?? "sil");
+    const engine = selectedMascot.stateEngine;
+    setPose(engine?.states?.idle ?? "idle");
+    setViseme(engine?.visemeCodes?.[0] ?? "sil");
     setCycling(false);
+    const initialValues = {};
+    for (const channel of engine?.channels ?? []) {
+      initialValues[channel.key] = channel.default ?? channel.values[0];
+    }
+    setChannelValues(initialValues);
+    setChannelCycling({});
   }, [selectedMascot?.id]);
+
+  // Auto-cycle any channel whose toggle is on (e.g. idle eye darting).
+  useEffect(() => {
+    const channels = stateEngine?.channels ?? [];
+    const timers = channels
+      .filter(channel => channelCycling[channel.key] && channel.cycle?.enabled)
+      .map(channel => {
+        const interval = channel.cycle.intervalMs ?? 2500;
+        const sequential = channel.cycle.order === "sequential";
+        let index = 0;
+        return window.setInterval(() => {
+          setChannelValues(prev => {
+            let next;
+            if (sequential) {
+              index = (index + 1) % channel.values.length;
+              next = channel.values[index];
+            } else {
+              next = channel.values[Math.floor(Math.random() * channel.values.length)];
+            }
+            return { ...prev, [channel.key]: next };
+          });
+        }, interval);
+      });
+    return () => timers.forEach(timer => window.clearInterval(timer));
+  }, [channelCycling, stateEngine]);
 
   useEffect(() => {
     if (!cycling || !stateEngine) return;
@@ -209,7 +263,12 @@ export default function MascotTester() {
                 </span>
               </div>
 
-              <RivePreview mascot={selectedMascot} pose={pose} viseme={viseme} />
+              <RivePreview
+                mascot={selectedMascot}
+                pose={pose}
+                viseme={viseme}
+                channelValues={channelValues}
+              />
 
               <div className="assetLinks">
                 {runtime ? <a href={localAssetUrl(runtime.path)}>runtime .riv</a> : null}
@@ -268,6 +327,36 @@ export default function MascotTester() {
               </button>
             ))}
           </div>
+
+          {(stateEngine?.channels ?? []).map(channel => (
+            <div className="channelControl" key={channel.key}>
+              <label className="field">
+                <span>{channel.label ?? channel.key}</span>
+                <select
+                  value={channelValues[channel.key] ?? ""}
+                  onChange={event =>
+                    setChannelValues(prev => ({ ...prev, [channel.key]: event.target.value }))
+                  }>
+                  {channel.values.map(value => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {channel.cycle?.enabled ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setChannelCycling(prev => ({ ...prev, [channel.key]: !prev[channel.key] }))
+                  }>
+                  {channelCycling[channel.key]
+                    ? `Stop ${channel.label ?? channel.key} cycle`
+                    : `Cycle ${channel.label ?? channel.key}`}
+                </button>
+              ) : null}
+            </div>
+          ))}
         </aside>
       </section>
     </main>

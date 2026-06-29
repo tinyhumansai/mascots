@@ -33,6 +33,29 @@
       "hand_wave",
       "dancing",
       "celebration"
+    ],
+    "channels": [
+      {
+        "key": "eyes",
+        "enum": "eyes",
+        "label": "Eyes",
+        "values": [
+          "look_up",
+          "look_down",
+          "look_left",
+          "look_right",
+          "blink",
+          "closed",
+          "squinting",
+          "confused",
+          "thinking"
+        ],
+        "cycle": {
+          "enabled": true,
+          "intervalMs": 2600,
+          "order": "random"
+        }
+      }
     ]
   },
   "files": [

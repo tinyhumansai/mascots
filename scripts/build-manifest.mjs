@@ -166,6 +166,30 @@ function validateStateEngine(folderName, stateEngine) {
   if (!Array.isArray(stateEngine.idlePoseCycle) || stateEngine.idlePoseCycle.length === 0) {
     fail(`Mascot '${folderName}' stateEngine.idlePoseCycle must be a non-empty array.`);
   }
+  if (stateEngine.channels !== undefined) {
+    if (!Array.isArray(stateEngine.channels)) {
+      fail(`Mascot '${folderName}' stateEngine.channels must be an array when present.`);
+    }
+    const seenKeys = new Set();
+    for (const channel of stateEngine.channels) {
+      if (!channel || typeof channel !== "object") {
+        fail(`Mascot '${folderName}' stateEngine.channels entries must be objects.`);
+      }
+      if (!channel.key || typeof channel.key !== "string") {
+        fail(`Mascot '${folderName}' stateEngine.channels entries must define a string 'key'.`);
+      }
+      if (seenKeys.has(channel.key)) {
+        fail(`Mascot '${folderName}' stateEngine.channels has duplicate key '${channel.key}'.`);
+      }
+      seenKeys.add(channel.key);
+      if (!Array.isArray(channel.values) || channel.values.length === 0) {
+        fail(`Mascot '${folderName}' stateEngine.channels '${channel.key}' must list at least one value.`);
+      }
+      if (channel.default !== undefined && !channel.values.includes(channel.default)) {
+        fail(`Mascot '${folderName}' stateEngine.channels '${channel.key}' default must be one of its values.`);
+      }
+    }
+  }
 }
 
 async function main() {

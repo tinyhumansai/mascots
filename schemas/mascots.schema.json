@@ -96,6 +96,59 @@
                   "type": "string",
                   "minLength": 1
                 }
+              },
+              "channels": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "required": ["key", "values"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "enum": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "type": "array",
+                      "minItems": 1,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "default": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "cycle": {
+                      "type": "object",
+                      "required": ["enabled"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean"
+                        },
+                        "intervalMs": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "order": {
+                          "type": "string",
+                          "enum": ["random", "sequential"]
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           },

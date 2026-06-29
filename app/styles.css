@@ -243,6 +243,28 @@ a:hover {
   border-color: var(--accent);
 }
 
+.channelControl {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.channelControl button {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  cursor: pointer;
+  min-height: 36px;
+  padding: 7px 9px;
+}
+
+.channelControl button:hover {
+  border-color: var(--accent);
+}
+
 .emptyState {
   color: var(--muted);
   padding: 24px;

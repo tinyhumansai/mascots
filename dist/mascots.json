@@ -54,32 +54,52 @@
         ]
       },
       "status": "ready",
-      "tags": [
-        "default",
-        "openhuman"
-      ]
+      "tags": ["default", "openhuman"]
     },
     {
       "description": "Uploaded Toshi mascot asset. Marked draft until the Rive state machine matches the OpenHuman runtime contract.",
       "files": [
         {
-          "bytes": 2259454,
+          "bytes": 2259491,
           "path": "mascots/toshi/toshi.riv",
           "role": "runtime",
-          "sha256": "be9dc7a6ce776bbfd5a05fbb851324b8ffc95b5b69d9da50c0f855c98068ec08",
+          "sha256": "1d6841c6b6501d9011a3451e5a3d0d1db8bd8ff4787352ef9f2c9c0be7790200",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/toshi/toshi.riv"
         },
         {
-          "bytes": 5105370,
+          "bytes": 5105415,
           "path": "mascots/toshi/toshi.rev",
           "role": "source",
-          "sha256": "3a18f95c5c3c11d679c9852e44eee8a29a22da3e9af0be4c7a84606f1245cafc",
+          "sha256": "f6df6ce84d22930125a25984ddc7db537e6104182a5113357f78437cd6db2215",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/toshi/toshi.rev"
         }
       ],
       "id": "toshi",
       "name": "Toshi",
       "stateEngine": {
+        "channels": [
+          {
+            "cycle": {
+              "enabled": true,
+              "intervalMs": 2600,
+              "order": "random"
+            },
+            "enum": "eyes",
+            "key": "eyes",
+            "label": "Eyes",
+            "values": [
+              "look_up",
+              "look_down",
+              "look_left",
+              "look_right",
+              "blink",
+              "closed",
+              "squinting",
+              "confused",
+              "thinking"
+            ]
+          }
+        ],
         "idlePoseCycle": [
           "idle",
           "look_around",
@@ -111,10 +131,7 @@
         ]
       },
       "status": "draft",
-      "tags": [
-        "draft",
-        "openhuman"
-      ]
+      "tags": ["draft", "openhuman"]
     }
   ],
   "schemaVersion": 1,

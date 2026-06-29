@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-06-29T19:52:22.661Z",
+  "generatedAt": "2026-06-29T20:06:04.576Z",
   "mascots": [
     {
       "description": "Default OpenHuman mascot built in Rive Studio.",
       "files": [
         {
-          "bytes": 189369,
+          "bytes": 189378,
           "path": "mascots/tiny-mascot/tinyMascot.riv",
           "role": "runtime",
-          "sha256": "cc9b91233ed5f95bcf2bf0cf0852d39d4ff9295b6fc43f8e0a40b9e16bf724f0",
+          "sha256": "4b6288a48e1e24b211b60acba9a3b28043c493f8417a7c01db4b702a74263b4d",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/tiny-mascot/tinyMascot.riv"
         },
         {
-          "bytes": 622829,
+          "bytes": 622966,
           "path": "mascots/tiny-mascot/tinyMascot.rev",
           "role": "source",
-          "sha256": "31a7d001f0bb5618e13b0cf8cd1f30f87ce06bb1df7dfff96ba642c66d96164c",
+          "sha256": "319a591394a9d87eaec03f8e104cfe6c34421ca7698bbef8e2f0e7293b88a246",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/tiny-mascot/tinyMascot.rev"
         }
       ],
@@ -63,17 +63,17 @@
       "description": "Uploaded Toshi mascot asset. Marked draft until the Rive state machine matches the OpenHuman runtime contract.",
       "files": [
         {
-          "bytes": 2259494,
+          "bytes": 2259454,
           "path": "mascots/toshi/toshi.riv",
           "role": "runtime",
-          "sha256": "e18377ecc899f1da1d1711ddf868d545f6c0009194cf5b8ff4aea8beccf9c639",
+          "sha256": "be9dc7a6ce776bbfd5a05fbb851324b8ffc95b5b69d9da50c0f855c98068ec08",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/toshi/toshi.riv"
         },
         {
-          "bytes": 5105414,
+          "bytes": 5105370,
           "path": "mascots/toshi/toshi.rev",
           "role": "source",
-          "sha256": "9a8ca1018352cf09faaa65bdad935da88cc940a3dba579cd57608f88b9fb9101",
+          "sha256": "3a18f95c5c3c11d679c9852e44eee8a29a22da3e9af0be4c7a84606f1245cafc",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/toshi/toshi.rev"
         }
       ],

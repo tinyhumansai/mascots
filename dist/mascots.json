@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-29T20:11:14.207Z",
+  "generatedAt": "2026-06-29T20:29:30.328Z",
   "mascots": [
     {
       "description": "Default OpenHuman mascot built in Rive Studio.",
@@ -54,7 +54,10 @@
         ]
       },
       "status": "ready",
-      "tags": ["default", "openhuman"]
+      "tags": [
+        "default",
+        "openhuman"
+      ]
     },
     {
       "description": "Uploaded Toshi mascot asset. Marked draft until the Rive state machine matches the OpenHuman runtime contract.",
@@ -70,7 +73,7 @@
           "bytes": 5105415,
           "path": "mascots/toshi/toshi.rev",
           "role": "source",
-          "sha256": "f6df6ce84d22930125a25984ddc7db537e6104182a5113357f78437cd6db2215",
+          "sha256": "264344ca154aab978c2252c501ad01466607dc39ba3714f4dfe688aa50ef8deb",
           "url": "https://raw.githubusercontent.com/tinyhumansai/mascots/main/mascots/toshi/toshi.rev"
         }
       ],
@@ -131,13 +134,16 @@
         ]
       },
       "status": "draft",
-      "tags": ["draft", "openhuman"]
+      "tags": [
+        "draft",
+        "openhuman"
+      ]
     }
   ],
   "schemaVersion": 1,
   "source": {
     "branch": "main",
-    "commit": "f849de6e39ad3c233d80584331a4228193e8ca8d",
+    "commit": "local",
     "repository": "tinyhumansai/mascots"
   }
 }

@@ -1,0 +1,37 @@
+{
+  "id": "jarvis",
+  "name": "Jarvis",
+  "description": "Sci-fi HUD ring mascot inspired by Iron Man's J.A.R.V.I.S. Features a rotating idle state, listening pulse, and talking animation — controlled via a single ViewModel number property (animState).",
+  "status": "draft",
+  "tags": ["hud", "scifi", "ai", "openhuman"],
+  "stateEngine": {
+    "states": {
+      "idle": "JarvisRotate",
+      "listening": "listening",
+      "talking": "talking"
+    },
+    "idlePoseCycle": [
+      "JarvisRotate"
+    ],
+    "viewModel": {
+      "name": "ViewModel1",
+      "stateMachine": "JarvisSM",
+      "properties": {
+        "animState": {
+          "type": "number",
+          "values": {
+            "0": "JarvisRotate",
+            "1": "listening",
+            "2": "talking"
+          }
+        }
+      }
+    }
+  },
+  "files": [
+    {
+      "role": "runtime",
+      "path": "jarvis.riv"
+    }
+  ]
+}
